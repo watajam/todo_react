@@ -1,6 +1,6 @@
-import React from "react";
+import { memo } from "react";
 
-export const Form = (props) => {
+export const Form = memo((props) => {
   return (
     <div>
       <form onSubmit={props.handleSubmit}>
@@ -14,4 +14,4 @@ export const Form = (props) => {
       </form>
     </div>
   );
-};
+});

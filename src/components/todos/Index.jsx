@@ -1,35 +1,18 @@
-import { useCallback, useState } from "react";
-import { useInputTodo } from "../../hooks/useInputTodo";
+import { memo, useCallback, useState } from "react";
+
 import { Form } from "../form/Index";
 import { IncompleteTodos } from "./IncompleteTodos";
 import { ProgressTodos } from "./ProgressTodos";
 import { CompletionTodos } from "./CompletionTodos";
-import { useDeleteTodo } from "../../hooks/useDeleteTodo";
-import { useDeleteAdd } from "../../hooks/useDeleteAdd";
+import { useInputTodo } from "../../hooks/useInputTodo";
 
-export const Todos = () => {
+export const Todos = memo(() => {
   const [todo, setTodo] = useState([]);
   const [progressTodo, setProgressTodo] = useState([]);
   const [completionTodo, setCompletionTodo] = useState([]);
-
   const { text, handleSubmit, handleChenge } = useInputTodo();
 
-  const { deleteTodo: handleDelTodo } = useDeleteTodo(setTodo);
-  const { deleteTodo: handleProgDeleteTodo } = useDeleteTodo(setProgressTodo);
-  const { deleteTodo: handleCompDeleteTodo } = useDeleteTodo(setCompletionTodo);
-
-  const { handleAddTodo: handleProgAddTodo } = useDeleteAdd(
-    setTodo,
-    setProgressTodo,
-    todo
-  );
-  const { handleAddTodo: handleCompAddTodo } = useDeleteAdd(
-    setProgressTodo,
-    setCompletionTodo,
-    progressTodo
-  );
-
-  //Todo追加
+  // Todo追加
   const handleAddTodo = useCallback(() => {
     setTodo((prevTodo) => {
       if (!text) {
@@ -45,8 +28,8 @@ export const Todos = () => {
 
       {/* //フォーム */}
       <Form
-        handleSubmit={handleSubmit}
         text={text}
+        handleSubmit={handleSubmit}
         handleChenge={handleChenge}
         handleAddTodo={handleAddTodo}
       />
@@ -54,22 +37,23 @@ export const Todos = () => {
       {/* 未完了Todo */}
       <IncompleteTodos
         todo={todo}
-        handleAddTodo={handleProgAddTodo}
-        handleDeleteTodo={handleDelTodo}
+        setTodo={setTodo}
+        setProgressTodo={setProgressTodo}
       />
 
       {/* 進行中 */}
       <ProgressTodos
         todo={progressTodo}
-        handleAddTodo={handleCompAddTodo}
-        handleDeleteTodo={handleProgDeleteTodo}
+        progressTodo={progressTodo}
+        setProgressTodo={setProgressTodo}
+        setCompletionTodo={setCompletionTodo}
       />
 
       {/* 完了 */}
       <CompletionTodos
         todo={completionTodo}
-        handleDeleteTodo={handleCompDeleteTodo}
+        setCompletionTodo={setCompletionTodo}
       />
     </div>
   );
-};
+});

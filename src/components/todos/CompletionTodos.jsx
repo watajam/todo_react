@@ -1,6 +1,9 @@
-import React from "react";
+import { memo } from "react";
+import { useDeleteTodo } from "../../hooks/useDeleteTodo";
 
-export const CompletionTodos = (props) => {
+export const CompletionTodos = memo((props) => {
+  const { deleteTodo: handleCompDeleteTodo } = useDeleteTodo(props.setCompletionTodo);
+
   return (
     <div>
       <h4>完了</h4>
@@ -9,13 +12,11 @@ export const CompletionTodos = (props) => {
           return (
             <div key={index}>
               <li>{items}</li>
-              <button onClick={() => props.handleDeleteTodo(index)}>
-                削除
-              </button>
+              <button onClick={() => handleCompDeleteTodo(index)}>削除</button>
             </div>
           );
         })}
       </ol>
     </div>
   );
-};
+});
