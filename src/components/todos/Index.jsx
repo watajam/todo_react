@@ -7,10 +7,10 @@ import { CompletionTodos } from "./CompletionTodos";
 import { useInputTodo } from "../../hooks/useInputTodo";
 
 export const Todos = memo(() => {
+  const { text, handleSubmit, handleChenge } = useInputTodo();
   const [todo, setTodo] = useState([]);
   const [progressTodo, setProgressTodo] = useState([]);
   const [completionTodo, setCompletionTodo] = useState([]);
-  const { text, handleSubmit, handleChenge } = useInputTodo();
 
   // Todo追加
   const handleAddTodo = useCallback(() => {
